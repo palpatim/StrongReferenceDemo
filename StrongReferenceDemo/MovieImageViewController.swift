@@ -29,7 +29,7 @@ class MovieImageViewController: UIViewController {
         }
 
         // PATTERN 1: Strong reference cycle in delegates
-        // See also: DownloadableImage.swift
+        // See DownloadableImage.swift for the fix
         downloadableImage = DownloadableImage(delegate: self)
         downloadableImage?.doDownload(imageName)
     }
