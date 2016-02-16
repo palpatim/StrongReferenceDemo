@@ -3,79 +3,79 @@
     {
       "size" : "29x29",
       "idiom" : "iphone",
-      "filename" : "arrows_transparent-58x58.png",
+      "filename" : "arrows-58x58.png",
       "scale" : "2x"
     },
     {
       "size" : "29x29",
       "idiom" : "iphone",
-      "filename" : "arrows_transparent-87x87.png",
+      "filename" : "arrows-87x87.png",
       "scale" : "3x"
     },
     {
       "size" : "40x40",
       "idiom" : "iphone",
-      "filename" : "arrows_transparent-80x80.png",
+      "filename" : "arrows-80x80.png",
       "scale" : "2x"
     },
     {
       "size" : "40x40",
       "idiom" : "iphone",
-      "filename" : "arrows_transparent-120x120.png",
+      "filename" : "arrows-120x120.png",
       "scale" : "3x"
     },
     {
       "size" : "60x60",
       "idiom" : "iphone",
-      "filename" : "arrows_transparent-120x120-1.png",
+      "filename" : "arrows-120x120-1.png",
       "scale" : "2x"
     },
     {
       "size" : "60x60",
       "idiom" : "iphone",
-      "filename" : "arrows_transparent-180x180.png",
+      "filename" : "arrows-180x180.png",
       "scale" : "3x"
     },
     {
       "size" : "29x29",
       "idiom" : "ipad",
-      "filename" : "arrows_transparent-29x29.png",
+      "filename" : "arrows-29x29.png",
       "scale" : "1x"
     },
     {
       "size" : "29x29",
       "idiom" : "ipad",
-      "filename" : "arrows_transparent-58x58-1.png",
+      "filename" : "arrows-58x58-1.png",
       "scale" : "2x"
     },
     {
       "size" : "40x40",
       "idiom" : "ipad",
-      "filename" : "arrows_transparent-40x40.png",
+      "filename" : "arrows-40x40.png",
       "scale" : "1x"
     },
     {
       "size" : "40x40",
       "idiom" : "ipad",
-      "filename" : "arrows_transparent-80x80-1.png",
+      "filename" : "arrows-80x80-1.png",
       "scale" : "2x"
     },
     {
       "size" : "76x76",
       "idiom" : "ipad",
-      "filename" : "arrows_transparent-76x76.png",
+      "filename" : "arrows-76x76.png",
       "scale" : "1x"
     },
     {
       "size" : "76x76",
       "idiom" : "ipad",
-      "filename" : "arrows_transparent-152x152.png",
+      "filename" : "arrows-152x152.png",
       "scale" : "2x"
     },
     {
       "size" : "83.5x83.5",
       "idiom" : "ipad",
-      "filename" : "arrows_transparent-167x167.png",
+      "filename" : "arrows-167x167.png",
       "scale" : "2x"
     }
   ],

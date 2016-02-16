@@ -31,7 +31,7 @@ class IMDBMovieRatingLoader {
     }
 
     func getRating() {
-        let delay = 1.5 * Double(NSEC_PER_SEC)
+        let delay = 0.5 * Double(NSEC_PER_SEC)
         let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
         dispatch_after(time, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
             // Get rating from interwebs
