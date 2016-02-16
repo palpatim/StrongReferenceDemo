@@ -129,7 +129,7 @@ final class MovieListViewController: UITableViewController {
     func getLatestRatingForCell(cell: NodeCell) {
         cell.detailTextLabel?.text = "Loading rating..."
         // PATTERN 3: Instance functions are partially-applied closures on `self`
-        ratingsLoaders[cell] = IMDBMovieRatingLoader(cell: cell, completionHandler: updateCell)
+        ratingsLoaders[cell] = IMDBMovieRatingLoader(cell: cell, completionHandler: { [weak self] in self?.updateCell($0, withRating: $1) })
     }
 
     private func updateCell(cell: NodeCell, withRating rating: Int) {
