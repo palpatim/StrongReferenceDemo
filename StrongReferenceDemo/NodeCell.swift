@@ -13,9 +13,8 @@ class NodeCell: UITableViewCell {
 
     // PATTERN 2: Closures capture references to `self`
     lazy var statusText: () -> String = {
-        [weak self] in
-        let status = self?.node == nil ? "EMPTY" : "READY"
-        let name = self?.node?.name ?? "EMPTY"
+        let status = self.node == nil ? "EMPTY" : "READY"
+        let name = self.node?.name ?? "EMPTY"
         return "\(name): \(status)"
     }
 

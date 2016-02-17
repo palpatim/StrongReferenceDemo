@@ -9,6 +9,7 @@
 import UIKit
 
 class MovieImageViewController: UIViewController {
+    let bogusPropertyToShowMemoryUsage: [NSDate] = {  (0 ..< 100_000).map { _ in NSDate() } }()
     private static let placeholderImage = UIImage(named: "moviePlaceholder")!
 
     @IBOutlet weak var movieImage: UIImageView!
@@ -29,7 +30,7 @@ class MovieImageViewController: UIViewController {
         }
 
         // PATTERN 1: Strong reference cycle in delegates
-        // See DownloadableImage.swift for the fix
+        // See also: DownloadableImage.swift
         downloadableImage = DownloadableImage(delegate: self)
         downloadableImage?.doDownload(imageName)
     }

@@ -9,6 +9,7 @@
 import UIKit
 
 final class MovieListViewController: UITableViewController {
+    let bogusPropertyToShowMemoryUsage: [NSDate] = {  (0 ..< 100_000).map { _ in NSDate() } }()
     var currentFolder: Node!
     var selectedNode: Node?
 
@@ -129,7 +130,7 @@ final class MovieListViewController: UITableViewController {
     func getLatestRatingForCell(cell: NodeCell) {
         cell.detailTextLabel?.text = "Loading rating..."
         // PATTERN 3: Instance functions are partially-applied closures on `self`
-        ratingsLoaders[cell] = IMDBMovieRatingLoader(cell: cell, completionHandler: { [weak self] in self?.updateCell($0, withRating: $1) })
+        ratingsLoaders[cell] = IMDBMovieRatingLoader(cell: cell, completionHandler: updateCell)
     }
 
     private func updateCell(cell: NodeCell, withRating rating: Int) {
