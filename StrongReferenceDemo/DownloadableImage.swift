@@ -28,6 +28,7 @@ final class DownloadableImage {
     var delegate: DownloadableImageDelegate
 
     init(delegate: DownloadableImageDelegate) {
+        Log.t()
         self.delegate = delegate
     }
 

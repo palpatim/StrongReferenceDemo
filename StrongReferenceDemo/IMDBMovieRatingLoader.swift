@@ -21,6 +21,7 @@ class IMDBMovieRatingLoader {
      - parameter node: node to retrieve
      */
     init(cell: NodeCell, completionHandler: CompletionHandler) {
+        Log.t()
         self.cell = cell
         self.completionHandler = completionHandler
         getRating()

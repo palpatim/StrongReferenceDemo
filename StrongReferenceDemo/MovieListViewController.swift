@@ -20,6 +20,7 @@ final class MovieListViewController: UITableViewController {
     }
 
     override func viewDidLoad() {
+        Log.t()
         super.viewDidLoad()
         if currentFolder == nil {
             currentFolder = NodeDataSource.nodeById(0)

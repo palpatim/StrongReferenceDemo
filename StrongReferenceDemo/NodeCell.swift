@@ -20,6 +20,11 @@ class NodeCell: UITableViewCell {
 
     // MARK: - Lifecycle
 
+    required init?(coder aDecoder: NSCoder) {
+        Log.t()
+        super.init(coder: aDecoder)
+    }
+
     deinit {
         Log.t()
     }

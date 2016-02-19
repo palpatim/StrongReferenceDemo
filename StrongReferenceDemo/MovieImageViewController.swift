@@ -22,6 +22,7 @@ class MovieImageViewController: UIViewController {
     }
 
     override func viewDidLoad() {
+        Log.t()
         title = node?.name ?? "Movie"
 
         // Download placeholder image from local cache
