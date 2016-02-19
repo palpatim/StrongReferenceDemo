@@ -11,11 +11,11 @@ import UIKit
 class NodeCell: UITableViewCell {
     var node: Node!
 
-    // PATTERN 2: Closures capture references to `self`
+    // PATTERN 3: Closures capture references to `self`
     lazy var statusText: () -> String = {
-        let status = self.node == nil ? "EMPTY" : "READY"
+        let status = self.node == nil ? "🕐" : "✅"
         let name = self.node?.name ?? "EMPTY"
-        return "\(name): \(status)"
+        return "\(status)\(name)"
     }
 
     // MARK: - Lifecycle
