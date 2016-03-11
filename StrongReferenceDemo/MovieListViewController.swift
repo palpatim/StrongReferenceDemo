@@ -67,8 +67,7 @@ final class MovieListViewController: UITableViewController {
             return UITableViewCell()
         }
 
-        cell.node = node
-        cell.textLabel?.text = cell.statusText
+        cell.textLabel?.text = node.name
 
         if NodeDataSource.hasChildren(node) {
             // Folder
