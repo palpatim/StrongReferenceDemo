@@ -14,7 +14,9 @@ final class MovieListViewController: UITableViewController {
     var selectedNode: Node?
 
     var ratingsLoaders = [NodeCell: IMDBMovieRatingLoader?]()
-
+    
+    var shareController: UIAlertController!
+    
     deinit {
         Log.t()
     }
@@ -66,7 +68,7 @@ final class MovieListViewController: UITableViewController {
         }
 
         cell.node = node
-        cell.textLabel?.text = cell.statusText()
+        cell.textLabel?.text = cell.statusText
 
         if NodeDataSource.hasChildren(node) {
             // Folder
@@ -135,17 +137,36 @@ final class MovieListViewController: UITableViewController {
     }
 
     private func updateCell(cell: NodeCell, withRating rating: Int) {
-        /*
-        // NOTE: We could fix the error caused by Pattern 2 by releasing the loader reference here:
-        defer {
-            ratingsLoaders[cell] = nil
-        }
-        */
         guard let detailTextLabel = cell.detailTextLabel else {
             return
         }
         detailTextLabel.text = String(format: "%d stars", arguments: [rating])
     }
+    
+    // MARK: - Share
+    
+    @IBAction func handleShareAction(sender: UIBarButtonItem) {
+        // setup share controller
+        if(shareController == nil){
+            let shareController = UIAlertController(title: "Share", message: "Would you like to share this category?", preferredStyle: .Alert)
+            
+            // PATTERN 3: Closures capture references to `self`
+            shareController.addAction(UIAlertAction(title: "Share", style: .Default, handler: { action in
+                let name = self.currentFolder.name
+                let actionViewController = UIActivityViewController(activityItems: [name], applicationActivities: nil)
+                self.presentViewController(actionViewController, animated: true, completion: nil)
+            }))
+            
+            shareController.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: { action in
+                // cancel
+            }))
+            
+            self.shareController = shareController
+        }
+        
+        presentViewController(shareController, animated: true, completion: nil)
+    }
+
 
     // MARK: - Private utility methods
 

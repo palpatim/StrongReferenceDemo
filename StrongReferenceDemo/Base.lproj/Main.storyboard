@@ -60,7 +60,13 @@
                             <outlet property="delegate" destination="cN2-Ag-w7O" id="GVi-Si-XYp"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="PNY-Xm-vwa"/>
+                    <navigationItem key="navigationItem" id="PNY-Xm-vwa">
+                        <barButtonItem key="rightBarButtonItem" systemItem="action" id="Ndv-YS-rka">
+                            <connections>
+                                <action selector="handleShareAction:" destination="cN2-Ag-w7O" id="L6h-bZ-3Ki"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <segue destination="OBj-tW-sDM" kind="show" identifier="navigateToMovie" id="qDX-5n-ZUo"/>
                     </connections>

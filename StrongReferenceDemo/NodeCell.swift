@@ -10,9 +10,7 @@ import UIKit
 
 class NodeCell: UITableViewCell {
     var node: Node!
-
-    // PATTERN 3: Closures capture references to `self`
-    lazy var statusText: () -> String = {
+    var statusText: String {
         let status = self.node == nil ? "🕐" : "✅"
         let name = self.node?.name ?? "EMPTY"
         return "\(status)\(name)"

@@ -155,7 +155,7 @@ struct Log {
      */
     private static func log(level: LogLevel, tag: String, message: String) {
         if(level.rawValue >= self.level.rawValue) {
-            NSLog("%@", "\(level.getTag())\\\(tag):\(message)")
+            NSLog("%@", "\(tag):\(message)")
         }
     }
 }
