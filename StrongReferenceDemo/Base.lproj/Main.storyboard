@@ -61,9 +61,9 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" id="PNY-Xm-vwa">
-                        <barButtonItem key="rightBarButtonItem" systemItem="action" id="Ndv-YS-rka">
+                        <barButtonItem key="rightBarButtonItem" title="More" id="Ndv-YS-rka">
                             <connections>
-                                <action selector="handleShareAction:" destination="cN2-Ag-w7O" id="L6h-bZ-3Ki"/>
+                                <action selector="handleMoreAction:" destination="cN2-Ag-w7O" id="2DB-NW-yAg"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
