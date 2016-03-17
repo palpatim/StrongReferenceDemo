@@ -15,7 +15,7 @@ final class MovieListViewController: UITableViewController {
 
     var ratingsLoaders = [NodeCell: IMDBMovieRatingLoader?]()
     
-    var shareController: UIAlertController!
+    var moreAlert: UIAlertController!
     
     deinit {
         Log.t()
@@ -25,6 +25,7 @@ final class MovieListViewController: UITableViewController {
         Log.t()
         super.viewDidLoad()
         if currentFolder == nil {
+            navigationItem.rightBarButtonItem = nil
             currentFolder = NodeDataSource.nodeById(0)
         }
         setupBackgroundView()
@@ -133,6 +134,11 @@ final class MovieListViewController: UITableViewController {
         cell.detailTextLabel?.text = "Loading rating..."
         // PATTERN 2: Instance functions are partially-applied closures on `self`
         ratingsLoaders[cell] = IMDBMovieRatingLoader(cell: cell, completionHandler: updateCell)
+    
+//        ratingsLoaders[cell] = IMDBMovieRatingLoader(cell: cell, completionHandler: { [weak self] in
+//            self?.updateCell($0, withRating: $1)
+//        })
+        
     }
 
     private func updateCell(cell: NodeCell, withRating rating: Int) {
@@ -144,26 +150,25 @@ final class MovieListViewController: UITableViewController {
     
     // MARK: - Share
     
-    @IBAction func handleShareAction(sender: UIBarButtonItem) {
+    @IBAction func handleMoreAction(sender: UIBarButtonItem) {
         // setup share controller
-        if(shareController == nil){
-            let shareController = UIAlertController(title: "Share", message: "Would you like to share this category?", preferredStyle: .Alert)
+        if(moreAlert == nil){
+            let moreAlert = UIAlertController(title: "More", message: "Would you like to explore more titles in this category?", preferredStyle: .Alert)
             
             // PATTERN 3: Closures capture references to `self`
-            shareController.addAction(UIAlertAction(title: "Share", style: .Default, handler: { action in
+            moreAlert.addAction(UIAlertAction(title: "Yes", style: .Default, handler: { action in
                 let name = self.currentFolder.name
-                let actionViewController = UIActivityViewController(activityItems: [name], applicationActivities: nil)
-                self.presentViewController(actionViewController, animated: true, completion: nil)
+                UIApplication.sharedApplication().openURL(NSURL(string: "http://google.com/search?q="+name)!)
             }))
             
-            shareController.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: { action in
+            moreAlert.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: { action in
                 // cancel
             }))
             
-            self.shareController = shareController
+            self.moreAlert = moreAlert
         }
         
-        presentViewController(shareController, animated: true, completion: nil)
+        presentViewController(moreAlert, animated: true, completion: nil)
     }
 
 
