@@ -176,7 +176,7 @@ final class MovieListViewController: UITableViewController {
 
     private func setupBackgroundView() {
         let backgroundView = UIView(frame: tableView.frame)
-        backgroundView.backgroundColor = UIColor(red: 252/255, green: 244/255, blue: 220/255, alpha: 1.0)
+        backgroundView.backgroundColor = UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 1.0)
 
         let imageView = UIImageView(image: UIImage(named: "Arrows")!)
         let size = CGSize(width: 100, height: 100)
