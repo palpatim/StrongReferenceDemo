@@ -8,14 +8,10 @@
 
 import UIKit
 
-final class MovieListViewController: UITableViewController {
+final class MovieListViewController: MovieListBaseViewController {
     let bogusPropertyToShowMemoryUsage: [NSDate] = {  (0 ..< 100_000).map { _ in NSDate() } }()
     var currentFolder: Node!
-    var selectedNode: Node?
-
     var ratingsLoaders = [NodeCell: IMDBMovieRatingLoader?]()
-    
-    var moreAlert: UIAlertController!
     
     deinit {
         Log.t()
@@ -25,35 +21,15 @@ final class MovieListViewController: UITableViewController {
         Log.t()
         super.viewDidLoad()
         if currentFolder == nil {
-            navigationItem.rightBarButtonItem = nil
             currentFolder = NodeDataSource.nodeById(0)
         }
-        setupBackgroundView()
-        tableView.separatorStyle = .SingleLine
         title = currentFolder.name ?? "Movies"
     }
 
-    // MARK: - UIViewController overrides
-
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        guard let identifier = segue.identifier else {
-            return
-        }
-
-        switch identifier {
-        case "navigateToMovie":
-            defer {
-                selectedNode = nil
-            }
-            guard let movieImageViewController = segue.destinationViewController as? MovieImageViewController else {
-                return
-            }
-            movieImageViewController.node = selectedNode
-        default:
-            break
-        }
+    override func getCurrentFolder() -> Node {
+        return currentFolder
     }
-
+    
     // MARK: - UITableViewDataSource
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -76,7 +52,6 @@ final class MovieListViewController: UITableViewController {
             cell.detailTextLabel?.text = ""
         } else {
             // Individual Movie
-            cell.accessoryType = .DetailButton
             if let imageName = node.imageName, image = UIImage(named: imageName) {
                 cell.imageView?.image = image
             }
@@ -87,47 +62,7 @@ final class MovieListViewController: UITableViewController {
         return cell
     }
 
-    // MARK: - UITableViewDelegate
-
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        guard let node = nodeForIndexPath(indexPath) else {
-            return
-        }
-        if NodeDataSource.hasChildren(node) {
-            navigateToFolder(node)
-        } else {
-            navigateToItem(node)
-        }
-    }
-
-    override func tableView(tableView: UITableView, accessoryButtonTappedForRowWithIndexPath indexPath: NSIndexPath) {
-        self.tableView(tableView, didSelectRowAtIndexPath: indexPath)
-    }
-
-    // MARK: - Navigation
-
-    private func navigateToFolder(node: Node) {
-        guard let storyboard = self.storyboard else {
-            return
-        }
-        guard let folderViewController = storyboard.instantiateViewControllerWithIdentifier("MovieListViewController") as? MovieListViewController else {
-            return
-        }
-        folderViewController.currentFolder = node
-        self.navigationController?.pushViewController(folderViewController, animated: true)
-    }
-
-    private func navigateToItem(node: Node) {
-        selectedNode = node
-        performSegueWithIdentifier("navigateToMovie", sender: self)
-    }
-
-    private func nodeForIndexPath(indexPath: NSIndexPath) -> Node? {
-        let children = currentFolder.childIds ?? []
-        let childId = children[indexPath.row]
-        return NodeDataSource.nodeById(childId)
-    }
-
+    
     // MARK: - Ratings
 
     func getLatestRatingForCell(cell: NodeCell) {
@@ -146,60 +81,5 @@ final class MovieListViewController: UITableViewController {
             return
         }
         detailTextLabel.text = String(format: "%d stars", arguments: [rating])
-    }
-    
-    // MARK: - Share
-    
-    @IBAction func handleMoreAction(sender: UIBarButtonItem) {
-        // setup share controller
-        if(moreAlert == nil){
-            let moreAlert = UIAlertController(title: "More", message: "Would you like to explore more titles in this category?", preferredStyle: .Alert)
-            
-            // PATTERN 3: Closures capture references to `self`
-            moreAlert.addAction(UIAlertAction(title: "Yes", style: .Default, handler: { action in
-                let name = self.currentFolder.name
-                UIApplication.sharedApplication().openURL(NSURL(string: "http://google.com/search?q="+name)!)
-            }))
-            
-            moreAlert.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: { action in
-                // cancel
-            }))
-            
-            self.moreAlert = moreAlert
-        }
-        
-        presentViewController(moreAlert, animated: true, completion: nil)
-    }
-
-
-    // MARK: - Private utility methods
-
-    private func setupBackgroundView() {
-        let backgroundView = UIView(frame: tableView.frame)
-        backgroundView.backgroundColor = UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 1.0)
-
-        let imageView = UIImageView(image: UIImage(named: "Arrows")!)
-        let size = CGSize(width: 100, height: 100)
-        let centerX = CGRectGetMidX(tableView.frame)
-        let centerY = CGRectGetMidY(tableView.frame)
-        let center = CGPoint(x: centerX, y: centerY)
-        let frame = CGRect(center: center, size: size)
-        imageView.frame = frame
-        imageView.layer.opacity = 0.20
-        backgroundView.addSubview(imageView)
-
-        tableView.backgroundView = backgroundView
-    }
-
-}
-
-// MARK: - Private utility extensions
-
-private extension CGRect {
-    init(center: CGPoint, size: CGSize) {
-        let originX = center.x - (size.width / 2)
-        let originY = center.y - (size.height / 2)
-        let origin = CGPoint(x: originX, y: originY)
-        self.init(origin: origin, size: size)
     }
 }
