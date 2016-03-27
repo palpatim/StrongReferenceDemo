@@ -14,17 +14,19 @@ class MovieImageViewController: UIViewController {
 
     @IBOutlet weak var movieImage: UIImageView!
 
-    var node: Node?
+    var node: Node!
     var downloadableImage: DownloadableImage?
-
+    var moreAlert: UIAlertController!
+    
     deinit {
         Log.t()
     }
 
     override func viewDidLoad() {
         Log.t()
-        title = node?.name ?? "Movie"
-
+        title = node?.name
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "More", style: .Plain, target: self, action: Selector("handleMoreAction:"))
+        
         // Download placeholder image from local cache
         guard let imageName = node?.imageName else {
             return
@@ -36,6 +38,28 @@ class MovieImageViewController: UIViewController {
         downloadableImage?.doDownload(imageName)
     }
 
+    // MARK: - More
+    
+    func handleMoreAction(sender: UIBarButtonItem) {
+        // setup share controller
+        if(moreAlert == nil){
+            let moreAlert = UIAlertController(title: "More", message: "Would you like to explore more titles in this category?", preferredStyle: .Alert)
+            
+            // PATTERN 3: Closures capture references to `self`
+            moreAlert.addAction(UIAlertAction(title: "Yes", style: .Default, handler: { action in
+                let name = self.node.name
+                UIApplication.sharedApplication().openURL(NSURL(string: "http://google.com/search?q="+name.urlEncodedString())!)
+            }))
+            
+            moreAlert.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: { action in
+                // cancel
+            }))
+            
+            self.moreAlert = moreAlert
+        }
+        
+        presentViewController(moreAlert, animated: true, completion: nil)
+    }
 }
 
 extension MovieImageViewController: DownloadableImageDelegate {
