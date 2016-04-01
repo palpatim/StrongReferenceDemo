@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol DownloadableImageDelegate {
+protocol DownloadableImageDelegate: class {
     func imageDidDownload(image: UIImage)
     func imageFailedDownload(error: DownloadableImageError)
 }
@@ -25,7 +25,7 @@ struct DownloadableImageError: ErrorType {
 final class DownloadableImage {
     // PATTERN 1: Strong reference cycle in delegates
     // See also: MovieImageViewController.swift
-    var delegate: DownloadableImageDelegate
+    weak var delegate: DownloadableImageDelegate?
 
     init(delegate: DownloadableImageDelegate) {
         Log.t()
@@ -38,7 +38,7 @@ final class DownloadableImage {
 
     func doDownload(imageName: String) {
         guard let image = UIImage(named: imageName) else {
-            delegate.imageFailedDownload(DownloadableImageError(reason: .NoSuchImage))
+            delegate?.imageFailedDownload(DownloadableImageError(reason: .NoSuchImage))
             return
         }
 
@@ -48,7 +48,7 @@ final class DownloadableImage {
             // Get image from server
             dispatch_async(dispatch_get_main_queue()) {
                 // process...
-                self.delegate.imageDidDownload(image)
+                self.delegate?.imageDidDownload(image)
             }
         }
     }

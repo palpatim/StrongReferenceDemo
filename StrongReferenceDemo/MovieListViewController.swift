@@ -68,11 +68,11 @@ final class MovieListViewController: MovieListBaseViewController {
     func getLatestRatingForCell(cell: NodeCell) {
         cell.detailTextLabel?.text = "Loading rating..."
         // PATTERN 2: Instance functions are partially-applied closures on `self`
-        ratingsLoaders[cell] = IMDBMovieRatingLoader(cell: cell, completionHandler: updateCell)
+//        ratingsLoaders[cell] = IMDBMovieRatingLoader(cell: cell, completionHandler: updateCell)
     
-//        ratingsLoaders[cell] = IMDBMovieRatingLoader(cell: cell, completionHandler: { [weak self] in
-//            self?.updateCell($0, withRating: $1)
-//        })
+        ratingsLoaders[cell] = IMDBMovieRatingLoader(cell: cell, completionHandler: { [weak self] in
+            self?.updateCell($0, withRating: $1)
+        })
         
     }
 
