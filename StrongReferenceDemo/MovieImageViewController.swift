@@ -46,7 +46,7 @@ class MovieImageViewController: UIViewController {
             let moreAlert = UIAlertController(title: "More", message: "Would you like to explore more titles in this category?", preferredStyle: .Alert)
             
             // PATTERN 3: Closures capture references to `self`
-            moreAlert.addAction(UIAlertAction(title: "Yes", style: .Default, handler: { action in
+            moreAlert.addAction(UIAlertAction(title: "Yes", style: .Default, handler: { [unowned self] action in
                 let name = self.node.name
                 UIApplication.sharedApplication().openURL(NSURL(string: "http://google.com/search?q="+name.urlEncodedString())!)
             }))
