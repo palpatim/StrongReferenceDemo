@@ -24,7 +24,7 @@ class NodeCell: UITableViewCell {
     override func prepareForReuse() {
         detailTextLabel?.text = nil
         textLabel?.text = nil
-        accessoryType = .None
+        accessoryType = .none
         imageView?.image = nil
     }
 }

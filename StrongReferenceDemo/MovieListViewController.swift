@@ -9,7 +9,7 @@
 import UIKit
 
 final class MovieListViewController: MovieListBaseViewController {
-    let bogusPropertyToShowMemoryUsage: [NSDate] = {  (0 ..< 100_000).map { _ in NSDate() } }()
+    let bogusPropertyToShowMemoryUsage: [Date] = {  (0 ..< 100_000).map { _ in Date() } }()
     var currentFolder: Node!
     var ratingsLoaders = [NodeCell: IMDBMovieRatingLoader?]()
     
@@ -32,15 +32,15 @@ final class MovieListViewController: MovieListBaseViewController {
     
     // MARK: - UITableViewDataSource
 
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return currentFolder.childIds?.count ?? 0
     }
 
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let node = nodeForIndexPath(indexPath) else {
             return UITableViewCell()
         }
-        guard let cell = tableView.dequeueReusableCellWithIdentifier("NodeCell", forIndexPath: indexPath) as? NodeCell else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "NodeCell", for: indexPath) as? NodeCell else {
             return UITableViewCell()
         }
 
@@ -48,7 +48,7 @@ final class MovieListViewController: MovieListBaseViewController {
 
         if NodeDataSource.hasChildren(node) {
             // Folder
-            cell.accessoryType = .DisclosureIndicator
+            cell.accessoryType = .disclosureIndicator
             cell.detailTextLabel?.text = ""
         } else {
             // Individual Movie
@@ -65,7 +65,7 @@ final class MovieListViewController: MovieListBaseViewController {
     
     // MARK: - Ratings
 
-    func getLatestRatingForCell(cell: NodeCell) {
+    func getLatestRatingForCell(_ cell: NodeCell) {
         cell.detailTextLabel?.text = "Loading rating..."
         // PATTERN 2: Instance functions are partially-applied closures on `self`
         ratingsLoaders[cell] = IMDBMovieRatingLoader(cell: cell, completionHandler: updateCell)
@@ -76,7 +76,7 @@ final class MovieListViewController: MovieListBaseViewController {
         
     }
 
-    private func updateCell(cell: NodeCell, withRating rating: Int) {
+    private func updateCell(_ cell: NodeCell, withRating rating: Int) {
         guard let detailTextLabel = cell.detailTextLabel else {
             return
         }

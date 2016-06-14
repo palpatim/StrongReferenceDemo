@@ -40,18 +40,18 @@ struct NodeDataSource {
 
     ]
 
-    static func childrenInFolder(node: Node) -> [Node]? {
+    static func childrenInFolder(_ node: Node) -> [Node]? {
         return node.childIds?.map(nodeById).flatMap { $0 }
     }
 
-    static func nodeById(id: Int) -> Node? {
-        guard let i = nodes.indexOf({ $0.id == id }) else {
+    static func nodeById(_ id: Int) -> Node? {
+        guard let i = nodes.index(where: { $0.id == id }) else {
             return nil
         }
         return nodes[i]
     }
 
-    static func hasChildren(node: Node) -> Bool {
+    static func hasChildren(_ node: Node) -> Bool {
         return node.childIds?.count > 0
     }
 

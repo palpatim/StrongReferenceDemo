@@ -20,10 +20,10 @@ struct Log {
      - parameter tag: typically is the class name generating the log, defaults to `__FILE__`
      - parameter message: message to log, defaults to `__FUNCTION__`
      */
-    static func t(tag: String = __FILE__, _ message: String = __FUNCTION__) {
+    static func t(_ tag: String = #file, _ message: String = #function) {
         var convertedTag = tag
-        let url = NSURL(fileURLWithPath: tag)
-        if let basename = url.URLByDeletingPathExtension?.lastPathComponent {
+        let url = URL(fileURLWithPath: tag)
+        if let basename = try! url.deletingPathExtension().lastPathComponent {
             convertedTag = basename
         }
         NSLog("%@", "\(convertedTag):\(message)")

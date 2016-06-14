@@ -9,15 +9,15 @@
 import UIKit
 
 protocol DownloadableImageDelegate {
-    func imageDidDownload(image: UIImage)
-    func imageFailedDownload(error: DownloadableImageError)
+    func imageDidDownload(_ image: UIImage)
+    func imageFailedDownload(_ error: DownloadableImageError)
 }
 
-struct DownloadableImageError: ErrorType {
+struct DownloadableImageError: ErrorProtocol {
     enum Reason {
-        case NoSuchImage
-        case UnsupportedFormat
-        case InvalidFileFormat
+        case noSuchImage
+        case unsupportedFormat
+        case invalidFileFormat
     }
     let reason: Reason
 }
@@ -36,17 +36,17 @@ final class DownloadableImage {
         Log.t()
     }
 
-    func doDownload(imageName: String) {
+    func doDownload(_ imageName: String) {
         guard let image = UIImage(named: imageName) else {
-            delegate.imageFailedDownload(DownloadableImageError(reason: .NoSuchImage))
+            delegate.imageFailedDownload(DownloadableImageError(reason: .noSuchImage))
             return
         }
 
         let delay = 0.75 * Double(NSEC_PER_SEC)
-        let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
-        dispatch_after(time, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+        let time = DispatchTime.now() + Double(Int64(delay)) / Double(NSEC_PER_SEC)
+        DispatchQueue.global(attributes: DispatchQueue.GlobalAttributes.qosDefault).after(when: time) {
             // Get image from server
-            dispatch_async(dispatch_get_main_queue()) {
+            DispatchQueue.main.async {
                 // process...
                 self.delegate.imageDidDownload(image)
             }

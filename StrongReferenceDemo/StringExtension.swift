@@ -8,6 +8,6 @@
 
 extension String {
     func urlEncodedString() -> String {
-        return self.stringByAddingPercentEncodingWithAllowedCharacters(.URLHostAllowedCharacterSet())!
+        return self.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!
     }
 }

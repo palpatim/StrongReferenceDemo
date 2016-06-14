@@ -9,7 +9,7 @@
 import UIKit
 
 class MovieImageViewController: UIViewController {
-    let bogusPropertyToShowMemoryUsage: [NSDate] = {  (0 ..< 100_000).map { _ in NSDate() } }()
+    let bogusPropertyToShowMemoryUsage: [Date] = {  (0 ..< 100_000).map { _ in Date() } }()
     private static let placeholderImage = UIImage(named: "moviePlaceholder")!
 
     @IBOutlet weak var movieImage: UIImageView!
@@ -25,7 +25,7 @@ class MovieImageViewController: UIViewController {
     override func viewDidLoad() {
         Log.t()
         title = node?.name
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "More", style: .Plain, target: self, action: Selector("handleMoreAction:"))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "More", style: .plain, target: self, action: #selector(MovieImageViewController.handleMoreAction(_:)))
         
         // Download placeholder image from local cache
         guard let imageName = node?.imageName else {
@@ -40,34 +40,34 @@ class MovieImageViewController: UIViewController {
 
     // MARK: - More
     
-    func handleMoreAction(sender: UIBarButtonItem) {
+    func handleMoreAction(_ sender: UIBarButtonItem) {
         // setup share controller
         if(moreAlert == nil){
-            let moreAlert = UIAlertController(title: "More", message: "Would you like to explore more titles in this category?", preferredStyle: .Alert)
+            let moreAlert = UIAlertController(title: "More", message: "Would you like to explore more titles in this category?", preferredStyle: .alert)
             
             // PATTERN 3: Closures capture references to `self`
-            moreAlert.addAction(UIAlertAction(title: "Yes", style: .Default, handler: { action in
+            moreAlert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { action in
                 let name = self.node.name
-                UIApplication.sharedApplication().openURL(NSURL(string: "http://google.com/search?q="+name.urlEncodedString())!)
+                UIApplication.shared().openURL(URL(string: "http://google.com/search?q="+name.urlEncodedString())!)
             }))
             
-            moreAlert.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: { action in
+            moreAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { action in
                 // cancel
             }))
             
             self.moreAlert = moreAlert
         }
         
-        presentViewController(moreAlert, animated: true, completion: nil)
+        present(moreAlert, animated: true, completion: nil)
     }
 }
 
 extension MovieImageViewController: DownloadableImageDelegate {
-    func imageDidDownload(image: UIImage) {
+    func imageDidDownload(_ image: UIImage) {
         movieImage.image = image
     }
 
-    func imageFailedDownload(error: DownloadableImageError) {
+    func imageFailedDownload(_ error: DownloadableImageError) {
         // Display appropriate error condition
     }
 }

@@ -33,11 +33,11 @@ class IMDBMovieRatingLoader {
 
     func getRating() {
         let delay = 0.5 * Double(NSEC_PER_SEC)
-        let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
-        dispatch_after(time, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+        let time = DispatchTime.now() + Double(Int64(delay)) / Double(NSEC_PER_SEC)
+        DispatchQueue.global(attributes: DispatchQueue.GlobalAttributes.qosDefault).after(when: time) {
             // Get rating from interwebs
             let rating = Int(arc4random_uniform(5) + 1)
-            dispatch_async(dispatch_get_main_queue()) {
+            DispatchQueue.main.async {
                 self.completionHandler(self.cell, rating)
             }
         }

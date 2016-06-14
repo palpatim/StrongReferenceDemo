@@ -15,7 +15,7 @@ class MovieListBaseViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupBackgroundView()
-        tableView.separatorStyle = .SingleLine
+        tableView.separatorStyle = .singleLine
     }
     
     func getCurrentFolder() -> Node {
@@ -25,7 +25,7 @@ class MovieListBaseViewController: UITableViewController {
     
     // MARK: - UITableViewDelegate
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let node = nodeForIndexPath(indexPath) else {
             return
         }
@@ -36,11 +36,11 @@ class MovieListBaseViewController: UITableViewController {
         }
     }
     
-    private func navigateToFolder(node: Node) {
+    private func navigateToFolder(_ node: Node) {
         guard let storyboard = self.storyboard else {
             return
         }
-        guard let folderViewController = storyboard.instantiateViewControllerWithIdentifier("MovieListViewController") as? MovieListViewController else {
+        guard let folderViewController = storyboard.instantiateViewController(withIdentifier: "MovieListViewController") as? MovieListViewController else {
             return
         }
         folderViewController.currentFolder = node
@@ -50,7 +50,7 @@ class MovieListBaseViewController: UITableViewController {
     
     // MARK: - UIViewController overrides
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: AnyObject?) {
         guard let identifier = segue.identifier else {
             return
         }
@@ -72,14 +72,14 @@ class MovieListBaseViewController: UITableViewController {
     // MARK: - Navigation
     
     
-    private func navigateToItem(node: Node) {
+    private func navigateToItem(_ node: Node) {
         selectedNode = node
-        performSegueWithIdentifier("navigateToMovie", sender: self)
+        performSegue(withIdentifier: "navigateToMovie", sender: self)
     }
     
-    func nodeForIndexPath(indexPath: NSIndexPath) -> Node? {
+    func nodeForIndexPath(_ indexPath: IndexPath) -> Node? {
         let children = getCurrentFolder().childIds ?? []
-        let childId = children[indexPath.row]
+        let childId = children[(indexPath as NSIndexPath).row]
         return NodeDataSource.nodeById(childId)
     }
 
@@ -91,8 +91,8 @@ class MovieListBaseViewController: UITableViewController {
         
         let imageView = UIImageView(image: UIImage(named: "Arrows")!)
         let size = CGSize(width: 100, height: 100)
-        let centerX = CGRectGetMidX(tableView.frame)
-        let centerY = CGRectGetMidY(tableView.frame)
+        let centerX = tableView.frame.midX
+        let centerY = tableView.frame.midY
         let center = CGPoint(x: centerX, y: centerY)
         let frame = CGRect(center: center, size: size)
         imageView.frame = frame
